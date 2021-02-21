@@ -11,6 +11,8 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 })
 export class AppComponent implements OnInit {
 
+  bLoading = false;
+  productsLoading: Product[];
   productsErrorHandling: Product[];
   simpleReqProductsObs$: Observable<Product[]>;
 
@@ -59,6 +61,19 @@ export class AppComponent implements OnInit {
       },
       error => {
         console.log(error);
+      }
+    );
+  }
+
+  getProductsLoading(): void {
+    this.bLoading = true;
+    this.productsService.getProductsDelay().subscribe(prods => {
+        this.productsLoading = prods;
+        this.bLoading = false;
+      },
+      error => {
+        console.log(error);
+        this.bLoading = false;
       }
     );
   }
