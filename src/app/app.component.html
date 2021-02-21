@@ -78,11 +78,11 @@
     </mat-card-header>
     <mat-card-content>
       <mat-list>
-        <mat-list-item *ngFor="let p of productsId; let i = index">
+        <mat-list-item *ngFor="let p of productsIds; let i = index">
           <mat-icon mat-list-icon>shop</mat-icon>
           <h4 mat-line *ngIf="p.name != ''">{{p.name}}</h4>
-          <h4 mat-line *ngIf="p.name == ''">{{i}}</h4>
-          <button mat-icon-button (click)="loadName(p._id)">
+          <h4 mat-line *ngIf="p.name == ''">Product: {{i}}</h4>
+          <button mat-icon-button color="primary" (click)="loadName(p._id)"  *ngIf="p.name == ''">
             <mat-icon>refresh</mat-icon>
           </button>
         </mat-list-item>
