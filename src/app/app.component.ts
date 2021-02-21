@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   bLoading = false;
   productsIds: Product[];
   productsLoading: Product[];
+  newlyProducts: Product[] = [];
   productsErrorHandling: Product[];
   simpleReqProductsObs$: Observable<Product[]>;
 
@@ -90,6 +91,25 @@ export class AppComponent implements OnInit {
       const index = this.productsIds.findIndex(p => p._id === id);
       if (index >= 0) {
         this.productsIds[index].name = name;
+      }
+    });
+  }
+
+  saveProduct(name: string, department: string, price: number): void {
+    let p = { name, department, price };
+    this.productsService.saveProduct(p).subscribe((p: Product) => {
+      console.log(p);
+      this.newlyProducts.push(p);
+    }, (error) => {
+      console.log(error);
+      let config = new MatSnackBarConfig();
+      config.duration = 2000;
+      config.panelClass = ['snack_err'];
+      if (error.status === 0) {
+        this.snackBar.open('Coud not connect to the server', '', config);
+      } else {
+        this.snackBar.open(error.error.msg, '', config);
+
       }
     });
   }
