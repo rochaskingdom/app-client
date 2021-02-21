@@ -12,6 +12,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 export class AppComponent implements OnInit {
 
   bLoading = false;
+  productsId: Product[];
   productsLoading: Product[];
   productsErrorHandling: Product[];
   simpleReqProductsObs$: Observable<Product[]>;
@@ -76,5 +77,13 @@ export class AppComponent implements OnInit {
         this.bLoading = false;
       }
     );
+  }
+
+  getProductsIds(): void {
+
+  }
+
+  loadName(id: string): void {
+
   }
 }
