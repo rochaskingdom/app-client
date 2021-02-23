@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   bLoading = false;
   productsIds: Product[];
   productsLoading: Product[];
+  productsToDelete: Product[];
   newlyProducts: Product[] = [];
   productsErrorHandling: Product[];
   simpleReqProductsObs$: Observable<Product[]>;
@@ -102,7 +103,7 @@ export class AppComponent implements OnInit {
       this.newlyProducts.push(p);
     }, (error) => {
       console.log(error);
-      let config = new MatSnackBarConfig();
+      const config = new MatSnackBarConfig();
       config.duration = 2000;
       config.panelClass = ['snack_err'];
       if (error.status === 0) {
@@ -111,6 +112,21 @@ export class AppComponent implements OnInit {
         this.snackBar.open(error.error.msg, '', config);
 
       }
+    });
+  }
+
+  loadProductsToDelete(): void {
+    this.productsService.getProducts().subscribe(p => this.productsToDelete = p);
+  }
+
+  deleteProduct(p: Product): void {
+    this.productsService.deleteProduct(p).subscribe(res => {
+      const i = this.productsToDelete.findIndex(prod => p._id === prod._id);
+      if (i >= 0) {
+        this.productsToDelete.splice(i, i);
+      }
+    }, error => {
+      console.log(error);
     });
   }
 }
